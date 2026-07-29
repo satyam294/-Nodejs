@@ -1,15 +1,21 @@
 const http = require("http");
 const fs = require("fs");
+const url = require("url");
 
 const myServer = http.createServer((req, res) => {
   if(req.url === '/favicon.ico') return;
 
-  switch(req.url) {
+  const myUrl = url.parse(req.url, true);  //true -> parse the query parameters as well
+
+  let visitorName = myUrl.query.name;
+  if(!visitorName) visitorName = "";
+
+  switch(myUrl.pathname) {  //match just the pathname, not the whole url
     case '/':
-      res.end("Welcome to Home!");
+      res.end(`Hi ${visitorName}, Welcome to Home!`);
       break;
     case '/about':
-      res.end("My name is Satyam Chand, and I am learning Node Js fundamentals!");
+      res.end(`Hi ${visitorName}, My name is Satyam Chand, and I am learning Node Js fundamentals!`);
       break;
     case '/contacts':
       res.end("You can find me at: github.com/satyam294");
