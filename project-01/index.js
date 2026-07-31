@@ -1,0 +1,84 @@
+const express = require("express");
+const users = require("./MOCK_DATA.json");
+
+const app = express();
+const PORT = 8000;
+
+// routes
+
+/*
+  Hybrid routes -> '/users' vs. '/api/users'
+  backend service can be accessed by 2 different type of users : 1) end users 2) developers
+  end users want to see pretty results on a screen and developers require raw data
+  so for request on '/users' -> send HTML(pretty representation), on '/api/users' -> send raw json object
+  Thus, '/api' helps us identify if raww data is being requested or the pretty representation
+*/
+
+// server side rendering (SSR)
+app.get('/users', (req, res) => {
+  const html = `
+    <ul>
+      ${users.map((user) => {
+    return `<li>${user.first_name}</li>`;
+  }).join("")
+    }
+    </ul>
+  `;
+
+  return res.send(html);
+});
+
+// 1- REST APIs - GET routes
+app.get('/api/users', (req, res) => {
+  return res.json(users);     // return is optional. useful when if-else blocks are there for response
+});
+
+// dynamic path parameters : the third path in url is a variable -> sp start with ':' and name it anything
+app.get('/api/users/:id', (req, res) => {
+  const id = Number(req.params.id);  // url params string by default
+  const user = users.find((user) => user.id === id); //the callback for whichever entry evals to true, that entry is returned
+  return res.json(user);
+});
+
+/*
+
+  // POST routes
+  app.post('/api/users/:id', (req, res) => {
+    // TODO : add new user with id
+    return res.json({status: 'pending'});
+  });
+
+  // PATCH routes
+  app.patch('/api/users/:id', (req, res) => {
+    // TODO : update user with id 
+    return res.json({status: 'pending'});
+  });
+
+  // DELETE routes
+  app.delete('/api/users/:id', (req, res) => {
+    // TODO : delete user with id 
+    return res.json({status: 'pending'});
+  });
+
+*/
+
+// embedding requests on the same route
+app.route('/api/users/:id')
+  .post((req, res) => {
+    // TODO : add new user with id
+    return res.json({ status: 'pending' });
+  })
+  .patch((req, res) => {
+    // TODO : update user with id 
+    return res.json({ status: 'pending' });
+  })
+  .delete((req, res) => {
+    // TODO : delete user with id 
+    return res.json({ status: 'pending' });
+  })
+
+
+
+app.listen(PORT, () => {
+  console.log(`Server started, listening on port ${PORT}...`);
+});
