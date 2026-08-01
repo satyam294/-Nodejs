@@ -1,8 +1,15 @@
 const express = require("express");
 const users = require("./MOCK_DATA.json");
+const fs = require("fs");
 
 const app = express();
 const PORT = 8000;
+
+// Middleware - like a plugin for now -> puts any url encoded/ JSpn value received in the body section
+// this plugin works on every request -> checks for any url encoded(form) data or JSON data.
+// If found, converts it into a JS object and puts it inside the body section
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 // routes
 
@@ -64,10 +71,6 @@ app.get('/api/users/:id', (req, res) => {
 
 // embedding requests on the same route
 app.route('/api/users/:id')
-  .post((req, res) => {
-    // TODO : add new user with id
-    return res.json({ status: 'pending' });
-  })
   .patch((req, res) => {
     // TODO : update user with id 
     return res.json({ status: 'pending' });
@@ -75,9 +78,17 @@ app.route('/api/users/:id')
   .delete((req, res) => {
     // TODO : delete user with id 
     return res.json({ status: 'pending' });
-  })
+  });
 
+  app.post('/api/users', (req, res) => {
+    const userData = req.body;
+    const newUser = {id: users.length + 1, ...userData};
+    users.push(newUser);
 
+    fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), (err) => {
+      return res.json({status: "success", id: users.length});
+    })
+  });
 
 app.listen(PORT, () => {
   console.log(`Server started, listening on port ${PORT}...`);

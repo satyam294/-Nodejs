@@ -7998,5 +7998,21 @@
     "email": "tmorrisseyrr@cnn.com",
     "gender": "Male",
     "job_title": "Compensation Analyst"
+  },
+  {
+    "id": 1001,
+    "first_name": "Satyam",
+    "last_name": "Chand",
+    "email": "satyam@123",
+    "gender": "Male",
+    "job_title": "software developer"
+  },
+  {
+    "id": 1002,
+    "first_name": "Rahul",
+    "last_name": "Chand",
+    "email": "satyam@123",
+    "gender": "Male",
+    "job_title": "product manager"
   }
 ]
