@@ -38,19 +38,21 @@ app.get('/users', (req, res) => {
     </ul>
   `;
 
-  return res.send(html);
+  return res.status(200).send(html);
 });
 
 // 1- REST APIs - GET routes
 app.get('/api/users', (req, res) => {
-  return res.json(users);     // return is optional. useful when if-else blocks are there for response
+  return res.status(200).json(users);     // return is optional. useful when if-else blocks are there for response
 });
 
 // dynamic path parameters : the third path in url is a variable -> sp start with ':' and name it anything
 app.get('/api/users/:id', (req, res) => {
   const id = Number(req.params.id);  // url params string by default
   const user = users.find((user) => user.id === id); //the callback for whichever entry evals to true, that entry is returned
-  return res.json(user);
+
+  if (!user) return res.status(404).json({ status: "user not found" });
+  return res.status(200).json(user);
 });
 
 /*
@@ -86,15 +88,25 @@ app.route('/api/users/:id')
     return res.json({ status: 'pending' });
   });
 
-  app.post('/api/users', (req, res) => {
-    const userData = req.body;
-    const newUser = {id: users.length + 1, ...userData};
-    users.push(newUser);
+app.post('/api/users', (req, res) => {
+  const userData = req.body;
 
-    fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), (err) => {
-      return res.json({status: "success", id: users.length});
-    })
-  });
+  if (!userData || 
+      !userData.first_name || 
+      !userData.last_name || 
+      !userData.email || 
+      !userData.gender || 
+      !userData.job_title) {
+    return res.status(400).json({ status: "incomplete user details" });
+  }
+
+  const newUser = { id: users.length + 1, ...userData };
+  users.push(newUser);
+
+  fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), (err) => {
+    return res.status(201).json({ status: "success", id: users.length });
+  })
+});
 
 app.listen(PORT, () => {
   console.log(`Server started, listening on port ${PORT}...`);

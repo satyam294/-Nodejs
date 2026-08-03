@@ -1,3 +1,16 @@
 1785680226750 : GET : /users/1001
 1785680295787 : GET : /api/users/1001
 1785680338458 : POST : /api/users
+1785770321585 : POST : /api/users
+1785770330794 : GET : /api/users/1001
+1785770334691 : GET : /api/users/1001
+1785774621546 : GET : /api/users/1011
+1785774632236 : GET : /api/users/1001
+1785774643120 : GET : /api/users/1001
+1785774686774 : GET : /api/users/1011
+1785775014188 : POST : /api/users
+1785775022901 : POST : /api/users
+1785775026031 : POST : /api/users
+1785775030188 : POST : /api/users
+1785775082814 : POST : /api/users
+1785775111755 : POST : /api/users
