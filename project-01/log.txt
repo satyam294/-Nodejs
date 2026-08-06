@@ -68,3 +68,14 @@
 1786034343901 : GET : /api/users
 1786034465221 : GET : /api/users
 1786034502526 : POST : /api/users
+1786034665348 : GET : /api/user
+1786034666268 : GET : /api/user
+1786034666468 : GET : /api/user
+1786034672597 : GET : /api/user
+1786034672723 : GET : /api/user
+1786034672874 : GET : /api/user
+1786034673004 : GET : /api/user
+1786034676568 : GET : /
+1786034680729 : GET : /
+1786034688619 : GET : /api/users
+1786034688676 : GET : /favicon.ico
